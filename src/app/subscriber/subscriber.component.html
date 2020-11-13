@@ -1,0 +1,59 @@
+<div class="sidenav">
+    <div class="login-main-text">
+       <h2>Subscriber Application</h2>
+       <p>{{subscribeState}} here</p>
+    </div>
+ </div>
+ <div class="main">
+    <div class="col-md-6 col-sm-12">
+       <div class="login-form">
+          <form
+          (ngSubmit)="onSubmit($event)"
+          [formGroup]="subscriberForm"
+          >
+             <div class="form-group">
+                <label>Phone Number</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">+233</div>
+                    </div>
+                    <input type="tel" class="form-control" formControlName="phone_number" placeholder="Phone number">
+                  </div>
+                  <div class="messages text-danger" *ngIf="subscriberForm.controls.phone_number.errors?.required">
+                     <p class="font-weight-light" style="font-size: 12px;">Phone number is required</p>
+                   </div>
+                   <div class="messages text-danger" *ngIf="subscriberForm.controls.phone_number.errors?.maxlength">
+                     <p class="font-weight-light" style="font-size: 12px;">Exceeded max input lenghth</p>
+                   </div>
+             </div>
+
+             <button type="submit" *ngIf="!apiService.requesting" 
+                class="form-control btn"
+                [ngClass]="getState(subscribeState)">
+                 {{subscribeState}}
+            </button>
+            
+            <button class="form-control btn btn-secondary" *ngIf="apiService.requesting" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+            </button>
+          </form>
+       </div>
+       <div style="margin-bottom: 80px">
+
+        <div class="d-flex justify-content-center links" *ngIf="subscribeState=='Check Status'">
+            <span class="text-muted"> Haven't Subscribed Yet? </span> 
+            <a href="#" (click)="setState('Subscribe')">Subscribe</a>
+        </div>
+
+        <div class="d-flex justify-content-center links" *ngIf="showCheckStatus()">
+            <span class="text-muted"> Want to check status? </span> 
+            <a href="#" (click)="setState('Check Status')">Check Status</a>
+        </div>
+    </div>
+    </div>
+ </div>
+
+
+ <angular-bootstrap-toasts-container></angular-bootstrap-toasts-container>
+
